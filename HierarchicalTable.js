@@ -1,6 +1,20 @@
 class HierarchicalTable {
+    static var log : Logger;
+
+    static var schemaId;
+    static var databaseTableName;
+    static var parentColumn;
+    static var hierarchy = [];
+    static var tables = [];
+
+    static function setUpGlobalSettings(settings) {
+        HierarchicalTable.schemaId = settings.schemaId;
+        HierarchicalTable.databaseTableName = settings.databaseTableName;
+        HierarchicalTable.parentColumn = settings.parentColumn;
+    }
+
     static function setUpTables(tables) {
-        Config.tables = tables;
+        HierarchicalTable.tables = tables;
     }
 
     static function txtScriptPrint(globals) {
@@ -9,7 +23,7 @@ class HierarchicalTable {
         var confirmit = globals.confirmit;
 
         var str = "<script>";
-        var tables = Config.tables;
+        var tables = HierarchicalTable.tables;
 
         for (var index = 0; index < tables.length; index++) {
             var table = tables[index];

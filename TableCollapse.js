@@ -104,25 +104,22 @@ class TableCollapse {
     }
 
     static function getHier(confirmit, tableConfig) {
-        var schemaId = tableConfig.schemaId || Config.schemaId;
-        var databaseTableName = tableConfig.databaseTableName || Config.databaseTableName;
+        var schemaId = tableConfig.schemaId || HierarchicalTable.schemaId;
+        var databaseTableName = tableConfig.databaseTableName || HierarchicalTable.databaseTableName;
         var hier = [];
-        if (Config.schemaId == schemaId && Config.databaseTableName == databaseTableName) {
-            if (Config.hierarchy && Config.hierarchy.length > 0) {
-                return Config.hierarchy;
+        if (HierarchicalTable.schemaId == schemaId && HierarchicalTable.databaseTableName == databaseTableName) {
+            if (HierarchicalTable.hierarchy && HierarchicalTable.hierarchy.length > 0) {
+                return HierarchicalTable.hierarchy;
             } else {
-                Config.hierarchy = hier;
+                HierarchicalTable.hierarchy = hier;
             }
         }
-
-        Config.log.LogDebug(schemaId);
-        Config.log.LogDebug(databaseTableName);
 
         var db = confirmit.GetDBDesignerSchema(schemaId);
         var t = db.GetDBDesignerTable(databaseTableName);
         var rows = t.GetDataTable().Rows;
         for (var i = 0; i < rows.Count; i++) {
-            var parentColumn = tableConfig.parentColumn || Config.parentColumn;
+            var parentColumn = tableConfig.parentColumn || HierarchicalTable.parentColumn;
             hier[rows[i]['id'].toLowerCase()] = rows[i][parentColumn] ? rows[i][parentColumn].toLowerCase() : '';
         }
 
